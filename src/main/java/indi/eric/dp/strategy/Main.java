@@ -6,5 +6,6 @@ package indi.eric.dp.strategy;
 public class Main {
     public static void main(String[] args) {
         System.out.println("design pattern practice");
+        System.out.println("another user in this project");
     }
 }
