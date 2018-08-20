@@ -20,31 +20,30 @@ public class Proxy {
         Method[] methods = infce.getMethods();
         for(Method method : methods) {
             methodString += "    public void " + method.getName() + "(){" + rt +
-                    "    try {" + rt +
-                    "        Method md = " + infce.getName() + ".class.getMethod(\"" + method.getName() + "\");" + rt +
-                    "        h.invoke(this, md);" + rt +
-                    "    }catch(Exception e) {e.printStackTrace();}" + rt +
-                    "}";
+                    "        try {" + rt +
+                    "            Method md = " + infce.getName() + ".class.getMethod(\"" + method.getName() + "\");" + rt +
+                    "            h.invoke(this, md);" + rt +
+                    "        }catch(Exception e) {e.printStackTrace();}" + rt +
+                    "    }";
         }
 
 
         String src =
                 "package indi.eric.dp.proxy;" + rt +
                 "import java.lang.reflect.Method;" + rt +
-                        "public class TankTimeProxy implements " + infce.getName() + "{" + rt +
-                        "    private Moveable m;" + rt +
+                "public class $Proxy1 implements " + infce.getName() + "{" + rt +
 
-                        "    public TankTimeProxy(InvocationHandler h){" + rt +
-                        "        this.h = h;" + rt +
-                        "    }" + rt +
-                        "    indi.eric.dp.proxy.InvocationHandler h;" + rt +
+                "    public $Proxy1(InvocationHandler h){" + rt +
+                "        this.h = h;" + rt +
+                "    }" + rt +
+                "    indi.eric.dp.proxy.InvocationHandler h;" + rt +
 
-                        methodString + rt +
+                methodString + rt +
 
-                        "}";
+                "}";
 
         System.out.println(System.getProperty("user.dir"));
-        String fileName = System.getProperty("user.dir") + "/src/main/java/indi/eric/dp/proxy/TankTimeProxy.java";
+        String fileName = System.getProperty("user.dir") + "/src/main/java/indi/eric/dp/proxy/$Proxy1.java";
 
         File f = new File(fileName);
 
@@ -64,11 +63,11 @@ public class Proxy {
         //load into memory and create an instance
         URL[] urls = new URL[]{new URL("file:/" + System.getProperty("user.dir") + "/src/main/java/")};
         URLClassLoader urlClassLoader = new URLClassLoader(urls);
-        Class c = urlClassLoader.loadClass("indi.eric.dp.proxy.TankTimeProxy");
+        Class c = urlClassLoader.loadClass("indi.eric.dp.proxy.$Proxy1");
         System.out.println(c);
 
         Constructor constructor = c.getConstructor(InvocationHandler.class);
-        Object m = constructor.newInstance(new TimeHandler(constructor));
+        Object m = constructor.newInstance(h);
 
         return m;
     }
